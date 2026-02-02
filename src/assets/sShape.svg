@@ -1,0 +1,50 @@
+<svg viewBox="0 0 400 2000" xmlns="http://www.w3.org/2000/svg" width="400" height="2000">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="sGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#f0e6d8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c9a876;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="stripesGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0e6d8;stop-opacity:1" />
+      <stop offset="2%" style="stop-color:#d4a574;stop-opacity:0.8" />
+      <stop offset="4%" style="stop-color:#f0e6d8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0e6d8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Vertical stripes pattern (tông màu kem) -->
+  <rect width="400" height="2000" fill="url(#stripesGradient)"/>
+  
+  <!-- S curve path - split into 10 sections -->
+  <!-- Section 1 (0-200px): Top curve going right -->
+  <path d="M 100 0 Q 300 100, 300 200" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 2 (200-400px): Middle top right transition -->
+  <path d="M 300 200 Q 300 300, 200 400" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 3 (400-600px): Center left going down -->
+  <path d="M 200 400 Q 100 500, 100 600" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 4 (600-800px): Center middle transition -->
+  <path d="M 100 600 Q 100 700, 200 800" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 5 (800-1000px): Lower middle right -->
+  <path d="M 200 800 Q 300 900, 300 1000" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 6 (1000-1200px): Lower right curve -->
+  <path d="M 300 1000 Q 350 1100, 300 1200" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 7 (1200-1400px): Bottom transition left -->
+  <path d="M 300 1200 Q 250 1300, 150 1400" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 8 (1400-1600px): Bottom left going down -->
+  <path d="M 150 1400 Q 100 1500, 150 1600" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 9 (1600-1800px): Bottom continuation -->
+  <path d="M 150 1600 Q 200 1700, 300 1800" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+  
+  <!-- Section 10 (1800-2000px): Final bottom right -->
+  <path d="M 300 1800 Q 320 1900, 320 2000" stroke="#8B4513" stroke-width="80" fill="none" stroke-linecap="round"/>
+</svg>
