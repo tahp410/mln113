@@ -1,11 +1,105 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, X } from 'lucide-react';
 import { VietnamMap, Mandala } from './SVGElements';
+
+// Modal content for the 3 buttons on slide 3 (Dân chủ là gì theo quan điểm khoa học?)
+const modalContentsSlide3 = [
+  {
+    title: 'Trình độ phát triển kinh tế',
+    content: `Trình độ phát triển kinh tế là cơ sở vật chất trực tiếp để thực hiện dân chủ trong xã hội. Khi nền kinh tế phát triển, của cải xã hội được tạo ra nhiều hơn, nhà nước và xã hội mới có điều kiện bảo đảm các quyền dân chủ của nhân dân trên thực tế, chứ không chỉ trên danh nghĩa.
+
+Ngược lại, trong điều kiện kinh tế lạc hậu, nghèo nàn, các quyền dân chủ dễ bị hạn chế hoặc chỉ tồn tại dưới hình thức hình thức. Do đó, theo Chủ nghĩa Mác – Lênin, dân chủ không thể tách rời sự phát triển của lực lượng sản xuất và nền tảng kinh tế của xã hội.`,
+    buttonText: 'Trình độ phát triển kinh tế'
+  },
+  {
+    title: 'Cơ cấu giai cấp trong xã hội',
+    content: `Trong xã hội có giai cấp, dân chủ luôn mang bản chất giai cấp. Quyền lực chính trị và quyền lực xã hội trên thực tế thuộc về giai cấp nào thì dân chủ trước hết phản ánh lợi ích của giai cấp đó.
+
+Theo quan điểm Mác – Lênin, trong xã hội tư bản chủ nghĩa, dù tồn tại nhiều hình thức dân chủ, quyền lực thực tế vẫn chủ yếu nằm trong tay giai cấp tư sản. Ngược lại, trong xã hội xã hội chủ nghĩa, dân chủ hướng tới việc bảo đảm quyền làm chủ của giai cấp công nhân, nhân dân lao động và toàn thể nhân dân.
+
+Vì vậy, không có nền dân chủ "phi giai cấp", mà mỗi hình thức dân chủ đều gắn với tương quan lực lượng giai cấp cụ thể trong xã hội.`,
+    buttonText: 'Cơ cấu giai cấp'
+  },
+  {
+    title: 'Quan hệ sản xuất đang tồn tại',
+    content: `Quan hệ sản xuất, đặc biệt là quan hệ sở hữu đối với tư liệu sản xuất, có vai trò quyết định phạm vi và nội dung của dân chủ. Khi tư liệu sản xuất tập trung trong tay thiểu số, quyền lực kinh tế và quyền lực chính trị cũng dễ bị tập trung, làm hạn chế dân chủ của đại đa số nhân dân.
+
+Theo Chủ nghĩa Mác – Lênin, việc xây dựng quan hệ sản xuất xã hội chủ nghĩa – trong đó tư liệu sản xuất chủ yếu thuộc về toàn xã hội – là điều kiện quan trọng để mở rộng và bảo đảm dân chủ thực chất, gắn quyền lực chính trị với quyền lực kinh tế của nhân dân.`,
+    buttonText: 'Quan hệ sản xuất trong xã hội'
+  }
+];
+
+// Modal content for the 3 buttons on slide 11 (SỰ RA ĐỜI CỦA DÂN CHỦ XÃ HỘI CHỦ NGHĨA)
+const modalContentsSlide11 = [
+  {
+    title: 'QUYỀN LỰC THỰC SỰ THUỘC VỀ NHÂN DÂN LAO ĐỘNG',
+    content: `Theo Chủ nghĩa xã hội khoa học, dân chủ xã hội chủ nghĩa trước hết được xác định bởi quyền lực thực sự của nhân dân lao động.
+
+Khác với các hình thức dân chủ trước đó, nơi quyền lực chính trị thường bị chi phối bởi các nhóm lợi ích kinh tế, dân chủ xã hội chủ nghĩa hướng tới việc bảo đảm để nhân dân lao động trực tiếp tham gia vào quá trình quyết định các vấn đề chính trị – xã hội, đặc biệt là những vấn đề liên quan đến quyền lực kinh tế và quyền lực xã hội.
+
+Quyền lực của nhân dân không chỉ được thừa nhận về mặt pháp lý, mà còn được tổ chức và bảo đảm thông qua các thiết chế chính trị – xã hội như các hội đồng nhân dân, các tổ chức xã hội, và các hình thức khác của dân chủ xã hội chủ nghĩa để nhân dân lao động thực sự làm chủ.`,
+    buttonText: 'Quyền lực thực sự thuộc về nhân dân lao động'
+  },
+  {
+    title: 'QUYỀN LÀM CHỦ VỀ KINH TẾ VÀ XÃ HỘI',
+    content: `Trong dân chủ xã hội chủ nghĩa, nhân dân không chỉ có quyền chính trị hình thức, mà còn có quyền làm chủ về kinh tế và xã hội.
+
+Điều này có nghĩa là nhân dân được tham gia vào quá trình quản lý, giám sát và quyết định các vấn đề kinh tế – xã hội liên quan đến đời sống của mình. Quyền sở hữu tư liệu sản xuất thuộc về toàn dân, được Nhà nước đại diện quản lý, nhằm phục vụ lợi ích chung của xã hội.
+
+Nhân dân có quyền tham gia xây dựng và thực hiện các kế hoạch phát triển kinh tế, các chính sách an sinh xã hội, đồng thời được hưởng thành quả lao động một cách công bằng. Đây là sự khác biệt căn bản so với dân chủ tư sản, nơi quyền lực kinh tế tập trung trong tay thiểu số.`,
+    buttonText: 'Nhân dân không chỉ có quyền chính trị hình thức'
+  },
+  {
+    title: 'DÂN CHỦ GẮN LIỀN VỚI CÔNG BẰNG XÃ HỘI',
+    content: `Dân chủ xã hội chủ nghĩa không tách rời khỏi công bằng xã hội. Theo Chủ nghĩa Mác – Lênin, dân chủ thực sự chỉ có thể đạt được khi gắn liền với việc xóa bỏ bất bình đẳng và bóc lột.
+
+Trong xã hội xã hội chủ nghĩa, công bằng xã hội được thể hiện qua việc:
+• Mọi người đều có cơ hội bình đẳng trong tiếp cận giáo dục, y tế, việc làm
+• Phân phối theo lao động, ai làm nhiều hưởng nhiều
+• Hệ thống an sinh xã hội bảo đảm cho những người yếu thế
+• Thu hẹp khoảng cách giàu nghèo, giảm bất bình đẳng
+
+Công bằng xã hội là nền tảng để dân chủ được thực hiện một cách thực chất, không chỉ trên giấy tờ mà trong đời sống hàng ngày của nhân dân.`,
+    buttonText: 'Dân chủ gắn liền với công bằng xã hội'
+  }
+];
+
+// Modal content for the 3 buttons on the last slide (DÂN CHỦ TRONG ĐỜI SỐNG THỰC TIỄN)
+const modalContents = [
+  {
+    title: 'BẢO ĐẢM CÁC QUYỀN CƠ BẢN CỦA NGƯỜI DÂN TRONG ĐỜI SỐNG XÃ HỘI',
+    content: `Dân chủ xã hội chủ nghĩa được thể hiện trước hết thông qua việc bảo đảm các quyền cơ bản của người dân trong đời sống xã hội, coi đây là nền tảng để thực hiện quyền làm chủ một cách thực chất. Theo quan điểm của Chủ nghĩa Mác – Lênin, dân chủ không chỉ dừng lại ở việc ghi nhận các quyền trên phương diện pháp lý, mà phải được bảo đảm bằng những điều kiện vật chất và xã hội cụ thể. Vì vậy, quyền tiếp cận giáo dục, y tế, khoa học và công nghệ, cùng với các dịch vụ công thiết yếu, có ý nghĩa quyết định trong việc tạo ra sự bình đẳng về cơ hội cho mọi công dân. Ở Việt Nam, việc Nhà nước giữ vai trò chủ đạo trong phát triển giáo dục, chăm sóc sức khỏe nhân dân và bảo đảm an sinh xã hội thể hiện rõ định hướng lấy con người làm trung tâm của dân chủ xã hội chủ nghĩa, qua đó góp phần nâng cao dân trí, cải thiện đời sống vật chất và tinh thần, thu hẹp khoảng cách xã hội và hiện thực hóa quyền làm chủ của nhân dân không chỉ trong lĩnh vực chính trị mà trong toàn bộ đời sống kinh tế, xã hội.`,
+    buttonText: 'Nhân dân làm chủ'
+  },
+  {
+    title: 'SỰ THAM GIA CỦA NHÂN DÂN VÀO QUẢN LÝ VÀ GIÁM SÁT XÃ HỘI',
+    content: `Bên cạnh đó, dân chủ xã hội chủ nghĩa còn được thể hiện thông qua sự tham gia của nhân dân vào quản lý và giám sát các hoạt động của xã hội và nhà nước. Theo quan điểm của Chủ nghĩa Mác – Lênin, quyền làm chủ của nhân dân không chỉ dừng lại ở việc thụ hưởng các chính sách, mà còn được hiện thực hóa thông qua sự tham gia trực tiếp và gián tiếp của người dân vào quá trình xây dựng, thực hiện và kiểm tra các quyết định liên quan đến lợi ích chung. Thông qua các cơ chế như góp ý kiến, phản ánh nguyện vọng, tham gia các tổ chức chính trị, xã hội và hoạt động cộng đồng, nhân dân có điều kiện phát huy vai trò chủ thể của mình, góp phần bảo đảm các chính sách, pháp luật phù hợp với thực tiễn đời sống và đáp ứng lợi ích chính đáng của nhân dân.`,
+    buttonText: 'Quyền lực thuộc về dân'
+  },
+  {
+    title: 'THỤ HƯỞNG THÀNH QUẢ PHÁT TRIỂN VÀ BẢO ĐẢM CÔNG BẰNG XÃ HỘI',
+    content: `Đồng thời, dân chủ xã hội chủ nghĩa gắn liền với việc nhân dân được thụ hưởng một cách công bằng và ngày càng đầy đủ các thành quả của quá trình phát triển kinh tế, xã hội. Theo quan điểm của Chủ nghĩa Mác – Lênin, quyền làm chủ của nhân dân chỉ thực sự có ý nghĩa khi được thể hiện trong đời sống vật chất và tinh thần cụ thể của con người. Vì vậy, việc không ngừng nâng cao mức sống, cải thiện điều kiện lao động, mở rộng hệ thống an sinh xã hội và bảo đảm công bằng xã hội là những biểu hiện trực tiếp và sinh động của dân chủ xã hội chủ nghĩa trong thực tiễn. Thông qua việc phân phối hợp lý thành quả phát triển, gắn tăng trưởng kinh tế với tiến bộ và công bằng xã hội, quyền làm chủ của nhân dân được hiện thực hóa không chỉ trên phương diện chính trị, mà còn trong toàn bộ đời sống kinh tế và xã hội.`,
+    buttonText: 'Thực hành quyền làm chủ'
+  }
+];
 
 const Magazine = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [scrollLocked, setScrollLocked] = useState(false);
+  const [activeModal, setActiveModal] = useState(null); // { type: 'slide11' | 'lastSlide', index: number }
+
+  // Helper to get modal content based on type
+  const getModalContent = () => {
+    if (!activeModal) return null;
+    if (activeModal.type === 'slide3') {
+      return modalContentsSlide3[activeModal.index];
+    }
+    if (activeModal.type === 'slide11') {
+      return modalContentsSlide11[activeModal.index];
+    }
+    return modalContents[activeModal.index];
+  };
 
   const pages = [
     {
@@ -27,44 +121,10 @@ const Magazine = () => {
     {
       id: 3,
       title: 'Dân chủ là gì theo quan điểm khoa học?',
-      content: `Theo Chủ nghĩa Mác – Lênin, dân chủ là một hình thức tổ chức quyền lực nhà nước trong đó nhân dân nắm giữ quyền lực và những quyền này được thực hiện theo những khái niệm trừu tượng, phi lịch sử, mà luôn gắn liền với:
-
-• Trình độ phát triển kinh tế
-• Cơ cấu giai cấp
-• Quan hệ sản xuất trong xã hội
-
-Vì vậy, không tồn tại một mô hình dân chủ chung cho mọi thời đại và mọi quốc gia.`,
-      type: 'content-with-map-right',
-      bgGradient: 'from-red-800 to-red-900',
-      hasMap: true,
-    },
-    {
-      id: 4,
-      title: 'Trình độ phát triển kinh tế',
-      content: `Trình độ phát triển kinh tế là cơ sở vật chất trực tiếp để thực hiện dân chủ trong xã hội. Khi nền kinh tế phát triển, của cải xã hội được tạo ra nhiều hơn, nhà nước và xã hội có điều kiện để bảo vệ và thực hiện các quyền dân chủ của nhân dân trên thực tế, chứ không chỉ trên danh nghĩa.
-
-Ngoài ra, mức độ kiến thức lao động nan, các quyền dân chủ đế bị han chế hoặc chi tồn tại dưới hình thức thực hành thực. Do đó, theo Chủ nghĩa Mác – Lênin, dân chủ không thể tách rời sự phát triển của lực lượng sản xuất và nền tảng kinh tế của xã hội.`,
-      type: 'content-with-map-right',
-      bgGradient: 'from-red-800 to-red-900',
-      hasMap: true,
-    },
-    {
-      id: 5,
-      title: 'Cơ cấu giai cấp trong xã hội',
-      content: `Trong xã hội có giai cấp, dân chủ luôn mang bản chất giai cấp. Quyền lực chính trị và quyền lực xã hội trên thực tế thuộc về giai cấp độc lập trên mặt pháp luật tự do của giai cấp độc lập.
-
-Theo quan điểm Mác – Lênin, trong xã hội từ ban chủ nghĩa, dân chủ trong xã hội chủ nghĩa, dân chủ hướng tới (việc xóa bỏ quyền lực giai cấp trong xã hội chủ nghĩa, cơ chế chính trị cùng với tương lai hình thức thực hành thực. Do đó, theo Chủ nghĩa Mác – Lênin, quan lực lượng giai cấp công nhân, nhân dân lao động và toàn thể nhân dân.`,
-      type: 'content-with-map-right',
-      bgGradient: 'from-red-800 to-red-900',
-      hasMap: true,
-    },
-    {
-      id: 6,
-      title: 'Quan hệ sản xuất đang tồn tại',
-      content: `Quan hệ sản xuất, đặc biệt là quan hệ sản xuất có vai trò quyết định phạm vi và nội dung của dân chủ. Khi từ liều sản xuất tập trung trong tay thiểu số, quyền lực chính trị và quyền lực kinh tế sẽ tập trung, làm hạn chế dân chủ.
-
-Theo Chủ nghĩa Mác – Lênin, việc xây dựng quan hệ sản xuất xã hội chủ nghĩa – trong đó tư liệu sản xuất chủ yếu thuộc và toàn xã hội – là điều kiện quan trọng để mở rộng và bảo đảm dân chủ chính trị với quyền lực kinh tế của nhân dân.`,
-      type: 'content-with-map-right',
+      content: `Theo Chủ nghĩa Mác – Lênin, dân chủ là một hình thức tổ chức quyền lực xã hội, trong đó nhân dân giữ vị trí chủ thể của quyền lực nhà nước và quyền lực xã hội. Dân chủ không tồn tại như một khái niệm trừu tượng, phi lịch sử, mà luôn gắn liền với:`,
+      buttons: ['Trình độ phát triển kinh tế', 'Cơ cấu giai cấp', 'Quan hệ sản xuất trong xã hội'],
+      footer: 'Vì vậy, không tồn tại một mô hình dân chủ chung cho mọi thời đại và mọi quốc gia.',
+      type: 'content-with-3-buttons-diagram',
       bgGradient: 'from-red-800 to-red-900',
       hasMap: true,
     },
@@ -393,6 +453,106 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
               </div>
             )}
 
+            {currentPageData.type === 'content-with-3-buttons-diagram' && (
+              <div className="w-full h-full flex items-center justify-between px-8 md:px-16 gap-8">
+                {/* Vietnam Map on the left */}
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="flex-1 flex items-center justify-start h-full"
+                >
+                  <VietnamMap className="w-64 h-64 md:w-80 md:h-80" />
+                </motion.div>
+
+                {/* Content on the right */}
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="flex-1 flex flex-col justify-center space-y-6"
+                >
+                  {/* Title with decorative border */}
+                  <div className="relative">
+                    <motion.div
+                      className="border-2 border-dashed border-yellow-500 rounded-lg p-4"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      <motion.h2
+                        className="text-3xl md:text-4xl font-bold text-yellow-400 text-center"
+                        animate={{ y: [0, -3, 0] }}
+                        transition={{ duration: 2.5, repeat: Infinity }}
+                      >
+                        {currentPageData.title}
+                      </motion.h2>
+                    </motion.div>
+                  </div>
+
+                  {/* Description */}
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.8 }}
+                    className="text-white text-base md:text-lg leading-relaxed text-center italic"
+                  >
+                    {currentPageData.content}
+                  </motion.p>
+
+                  {/* 3 Buttons in diagram layout */}
+                  <div className="flex flex-col items-center gap-4">
+                    {/* Top row - 2 buttons */}
+                    <div className="flex gap-6 justify-center">
+                      {currentPageData.buttons && currentPageData.buttons.slice(0, 2).map((btn, idx) => (
+                        <motion.button
+                          key={idx}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.5 + idx * 0.15, duration: 0.6 }}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => setActiveModal({ type: 'slide3', index: idx })}
+                          className="px-6 py-3 border-2 border-yellow-500 text-yellow-400 rounded-full font-semibold hover:bg-yellow-500 hover:text-red-900 transition-all cursor-pointer text-sm md:text-base"
+                        >
+                          • {btn}
+                        </motion.button>
+                      ))}
+                    </div>
+
+                    {/* Bottom row - 1 button centered */}
+                    {currentPageData.buttons && currentPageData.buttons[2] && (
+                      <motion.button
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8, duration: 0.6 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => setActiveModal({ type: 'slide3', index: 2 })}
+                        className="px-6 py-3 border-2 border-yellow-500 text-yellow-400 rounded-full font-semibold hover:bg-yellow-500 hover:text-red-900 transition-all cursor-pointer text-sm md:text-base"
+                      >
+                        • {currentPageData.buttons[2]}
+                      </motion.button>
+                    )}
+                  </div>
+
+                  {/* Footer text */}
+                  {currentPageData.footer && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.9, duration: 0.6 }}
+                      className="bg-red-900/60 border border-yellow-600/50 rounded-2xl p-4 mt-2"
+                    >
+                      <p className="text-white text-sm md:text-base text-center italic">
+                        {currentPageData.footer}
+                      </p>
+                    </motion.div>
+                  )}
+                </motion.div>
+              </div>
+            )}
+
             {currentPageData.type === 'content-with-box' && (
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -653,7 +813,8 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                       transition={{ delay: 0.4 + idx * 0.15, duration: 0.6 }}
                       whileHover={{ scale: 1.02, x: 10 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-6 py-3 border-2 border-red-500 text-white rounded-full font-semibold hover:bg-red-600 hover:border-red-400 transition-all text-center"
+                      onClick={() => setActiveModal({ type: 'slide11', index: idx })}
+                      className="px-6 py-3 border-2 border-red-500 text-white rounded-full font-semibold hover:bg-red-600 hover:border-red-400 transition-all text-center cursor-pointer"
                     >
                       {btn}
                     </motion.button>
@@ -716,7 +877,8 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                         transition={{ delay: 0.6 + idx * 0.2, duration: 0.6 }}
                         whileHover={{ scale: 1.05, x: 10 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 border-2 border-red-700 text-red-700 rounded-full font-semibold hover:bg-red-700 hover:text-white transition-all text-left"
+                        onClick={() => setActiveModal({ type: 'lastSlide', index: idx })}
+                        className="px-6 py-3 border-2 border-red-700 text-red-700 rounded-full font-semibold hover:bg-red-700 hover:text-white transition-all text-left cursor-pointer"
                       >
                         • {btn}
                       </motion.button>
@@ -875,6 +1037,111 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
           <ChevronDown size={32} />
         </motion.div>
       )}
+
+      {/* Modal for displaying detailed content */}
+      <AnimatePresence>
+        {activeModal !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            onClick={() => setActiveModal(null)}
+          >
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            
+            {/* Modal Content */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 50 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 50 }}
+              transition={{ duration: 0.4, type: 'spring', damping: 25 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden"
+            >
+              {/* Background with Vietnam map silhouette */}
+              <div className="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-3xl overflow-hidden">
+                {/* Decorative elements */}
+                <div className="absolute top-4 right-4 opacity-30">
+                  <svg width="80" height="40" viewBox="0 0 80 40" fill="none">
+                    <path d="M10 20 Q20 10 30 20 Q40 30 50 20 Q60 10 70 20" stroke="#DAA520" strokeWidth="2" fill="none"/>
+                    <path d="M10 25 Q20 15 30 25 Q40 35 50 25 Q60 15 70 25" stroke="#DAA520" strokeWidth="2" fill="none"/>
+                  </svg>
+                </div>
+                <div className="absolute bottom-4 left-4 opacity-30">
+                  <svg width="80" height="40" viewBox="0 0 80 40" fill="none">
+                    <path d="M10 20 Q20 10 30 20 Q40 30 50 20 Q60 10 70 20" stroke="#DAA520" strokeWidth="2" fill="none"/>
+                    <path d="M10 25 Q20 15 30 25 Q40 35 50 25 Q60 15 70 25" stroke="#DAA520" strokeWidth="2" fill="none"/>
+                  </svg>
+                </div>
+
+                {/* Vietnam map in background */}
+                <div className="absolute left-0 top-0 bottom-0 w-1/3 opacity-20 flex items-center">
+                  <VietnamMap className="w-full h-auto" />
+                </div>
+
+                {/* Content Container */}
+                <div className="relative z-10 p-8 md:p-12">
+                  {/* Close button */}
+                  <motion.button
+                    whileHover={{ scale: 1.1, rotate: 90 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setActiveModal(null)}
+                    className="absolute top-4 right-4 p-2 rounded-full bg-red-700/50 hover:bg-red-600 transition-colors"
+                  >
+                    <X size={24} className="text-white" />
+                  </motion.button>
+
+                  {/* Title */}
+                  <motion.h2
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-2xl md:text-3xl font-bold text-yellow-400 mb-6 pr-12 leading-tight"
+                    style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
+                  >
+                    {getModalContent()?.title}
+                  </motion.h2>
+
+                  {/* Content Box */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-red-950/60 border-2 border-yellow-600/50 rounded-2xl p-6 md:p-8 mb-6"
+                  >
+                    <p className="text-white text-sm md:text-base leading-relaxed text-justify whitespace-pre-line">
+                      {getModalContent()?.content}
+                    </p>
+                  </motion.div>
+
+                  {/* Footer Button */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="flex justify-end"
+                  >
+                    <button
+                      onClick={() => setActiveModal(null)}
+                      className="px-8 py-3 bg-red-950/80 border-2 border-yellow-600/70 text-yellow-400 rounded-full font-semibold hover:bg-red-800 hover:border-yellow-500 transition-all"
+                    >
+                      {getModalContent()?.buttonText}
+                    </button>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
