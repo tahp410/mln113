@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, X } from 'lucide-react';
-import { VietnamMap, Mandala } from './SVGElements';
+import { ChevronDown, ChevronUp, X, ArrowRight } from 'lucide-react';
+import { VietnamMap, Mandala, VietnamFlag, DocumentIcon, HammerSickle, BookIcon } from './SVGElements';
 
 // Modal content for the 3 buttons on slide 3 (Dân chủ là gì theo quan điểm khoa học?)
 const modalContentsSlide3 = [
@@ -65,6 +65,56 @@ Công bằng xã hội là nền tảng để dân chủ được thực hiện 
   }
 ];
 
+// Modal content for the 3 cards on slide 13 (KHÔNG CÓ DÂN CHỦ NẾU KHÔNG ĐI THEO CHỦ NGHĨA TỰ BẢN?)
+const modalContentsSlide13 = [
+  {
+    title: 'Đồng nhất dân chủ với một mô hình duy nhất',
+    content: `Nhận định cho rằng dân chủ chỉ có tồn tại trong khuôn khổ của chủ nghĩa tự bản chứa đó có nhiều điểm bất cập và những điều kiện lịch sử, xã hội của chủ được xây dựng. Cách tiếp cận này bỏ sót quan trọng một bản chất: dân chủ khởi những điều kiện lịch sử cụ thể của nó, với tính đa dạng và độc lập. Khi đó, dân chủ không còn được nhận nhận như một phạm trù lịch sử sắn có sẵn, mà là sản phẩm của quá trình phát triển của các xã hội cụ thể.
+
+Theo Chủ nghĩa xã hội khoa học, dân chủ không phải là sản phẩm riêng của chủ nghĩa tự bản, mà là kết quả của quá trình phát triển lịch sử lâu dài, gắn liền với trình độ phát triển kinh tế, cơ cấu giai cấp và quan hệ sản xuất của xã hội. Trong lịch sử, sự ton tại của những hình thức dân chủ khác nhau phản ánh bản chất giai cấp của quyền lực nhà nước, đồng thời cũng phát triển theo mức độ phát triển của xã hội.`,
+    buttonText: 'Chi tiết'
+  },
+  {
+    title: 'Bỏ qua bản chất giai cấp của dân chủ',
+    content: `Quan điểm phủ nhân dân chủ ở Việt Nam thường liên kết với khái niệm "nước phương tây" lại lịch giai cấp. Tuy nhiên, theo Chủ nghĩa xã hội khoa học, dân chủ luôn mang bản chất giai cấp, được sản xuất nhất định. Lịch sử cho thấy, mô hình thực dân chủ trên thực tế là đắm liên với hợp định hành động chính trị phía bộ phận được chính sách làm chủ của giai cấp nhất định. Những về thực chất văn là dân chủ của giai cấp tư sản, bởi quyền lực thực sự nằm trong tay các nhà tư bản, dù hình thức có vẻ công cộng và bình đẳng.
+
+Trong bối cảnh Việt Nam, dân chủ xã hội chủ nghĩa được xây dựng trên cơ sở dân chủ cho nhân dân được nhân dân lao động chủ yếu, được quy định trong lịch sử để thực hiện bình đẳng về chất lẫn về hình thức với quan đảm nhân dân lao động và cải thiện điều kiện sống được các quiết định chính trị và phát triển kinh tế.`,
+    buttonText: 'Chi tiết'
+  },
+  {
+    title: 'Không đặt dân chủ trong tiến trình lịch sử cụ thể',
+    content: `Một hạn chế cơ bản của nhân định phủ nhân dân chủ xã hội chủ nghĩa là xem dân chủ như một phạm trù trừu tượng, ngủi lập lực lác, thay vì đặt nó trong tiến trình lịch sự cụ thể. Theo Chủ nghĩa Mác – Lênin, dân chủ là một phạm trù lịch sử, luôn động và biến đổi cùng với sự phát triển của xã hội. Không tồn tại một mô hình dân chủ chung, bất biến cho mọi thời đại mọi quốc gia, mà là một quá trình lâu dài, tương ứng với điều kiện cụ thể của mỗi xã hội.
+
+Trong bối cảnh Việt Nam, dân chủ xã hội chủ nghĩa được xây dựng trong những điều kiện lịch sử đặc thù, với xuất phát điểm kinh tế lạc hậu, nền độc lập chủ quyền bị xâm chiếm nhiều thế kỷ, và sự phân chia giai cấp sâu sắc. Việc mở rộng và hoàn thiện dân chủ không thể diễn ra một quá trình lâu dài, tương ứng với sự phát triển kinh tế – xã hội của đất nước. Những số sánh giới hạn, tách rời bối cảnh lịch sử cụ thể đó, vị là phi lịch sử và không khoa học về sự phát triển của dân chủ .`,
+    buttonText: 'Chi tiết'
+  }
+];
+
+// Modal content for the 3 buttons on slide 12 (VIỆT NAM LỰA CHỌN CON ĐƯỜNG XÃ HỘI CHỦ NGHĨA)
+const modalContentsSlide12 = [
+  {
+    title: 'Quyền làm chủ của nhân dân',
+    content: `Trong dân chủ xã hội chủ nghĩa, quyền làm chủ của nhân dân là nội dung cốt lõi và xuyên suốt. Nhân dân không chỉ là đối tượng được quản lý mà là chủ thể của quyền lực nhà nước và quyền lực xã hội. Quyền làm chủ này được thể hiện thông qua việc nhân dân tham gia quyết định những vấn đề quan trọng của đất nước, đồng thời được bảo đảm các quyền và lợi ích chính đáng trong đời sống kinh tế, chính trị, văn hóa và xã hội.
+
+Theo Chủ nghĩa Mác – Lênin, quyền làm chủ của nhân dân không chỉ dừng lại ở việc bầu cử hay ứng cử, mà còn được thể hiện trong toàn bộ quá trình quản lý xã hội, từ việc xây dựng chính sách, pháp luật đến việc thực hiện và giám sát các quyết định đó. Đây là sự khác biệt căn bản so với dân chủ tư sản, nơi quyền lực thực tế thường tập trung trong tay thiểu số.`,
+    buttonText: 'Quyền'
+  },
+  {
+    title: 'Nhà nước của nhân dân, do nhân dân, vì nhân dân',
+    content: `Nhà nước xã hội chủ nghĩa Việt Nam được xây dựng trên nguyên tắc quyền lực nhà nước thuộc về nhân dân. Nhà nước do nhân dân lập nên, đại diện cho ý chí và lợi ích của nhân dân, hoạt động vì mục tiêu phục vụ nhân dân. Mọi đường lối, chính sách và hoạt động quản lý xã hội đều hướng tới bảo đảm quyền lợi của đa số nhân dân, gắn trách nhiệm của bộ máy nhà nước với sự giám sát của xã hội.
+
+Theo lý luận Hồ Chí Minh, nhà nước pháp quyền xã hội chủ nghĩa Việt Nam là nhà nước của dân, do dân và vì dân. Điều này có nghĩa là nhân dân là chủ thể tối cao của quyền lực nhà nước, mọi quyền lực đều xuất phát từ nhân dân và phục vụ lợi ích của nhân dân. Nhà nước không phải là một thực thể đứng trên nhân dân, mà là công cụ để nhân dân thực hiện quyền làm chủ của mình.`,
+    buttonText: 'Nhà nước'
+  },
+  {
+    title: 'Sự tham gia của nhân dân vào quản lý xã hội',
+    content: `Dân chủ xã hội chủ nghĩa không chỉ được thể hiện ở quyền bầu cử hay ứng cử, mà còn ở sự tham gia thường xuyên của nhân dân vào quản lý xã hội. Nhân dân có quyền đóng góp ý kiến, phản biện, giám sát hoạt động của các cơ quan nhà nước và các tổ chức xã hội. Thông qua sự tham gia đó, dân chủ được thực hiện một cách thực chất, gắn quyền với trách nhiệm và góp phần nâng cao hiệu quả quản lý xã hội.
+
+Theo quan điểm của Chủ nghĩa Mác – Lênin, sự tham gia của nhân dân vào quản lý xã hội được thể hiện qua nhiều hình thức: tham gia vào các tổ chức chính trị - xã hội, tham gia xây dựng và thực hiện các chính sách, pháp luật, tham gia giám sát hoạt động của các cơ quan nhà nước, và tham gia vào các hoạt động tự quản ở cơ sở. Đây là cách thức để nhân dân thực sự làm chủ, không chỉ trên danh nghĩa mà trong thực tế.`,
+    buttonText: 'Sự tham gia'
+  }
+];
+
 // Modal content for the 3 buttons on the last slide (DÂN CHỦ TRONG ĐỜI SỐNG THỰC TIỄN)
 const modalContents = [
   {
@@ -97,6 +147,12 @@ const Magazine = () => {
     }
     if (activeModal.type === 'slide11') {
       return modalContentsSlide11[activeModal.index];
+    }
+    if (activeModal.type === 'slide12') {
+      return modalContentsSlide12[activeModal.index];
+    }
+    if (activeModal.type === 'slide13') {
+      return modalContentsSlide13[activeModal.index];
     }
     return modalContents[activeModal.index];
   };
@@ -213,7 +269,7 @@ Quyền lực của nhân dân không chỉ được thừa nhận và một ph�
 Việc không đi theo con đường tư bản chủ nghĩa không đồng nghĩa với việc phủ nhân dân chủ, mà là xây dựng dân chủ theo một mô hình khác – phù hợp với lợi ích của đa số nhân dân.
 
 Dân chủ ở Việt Nam được thể hiện thông qua:`,
-      buttons: ['Quyền', 'Nhà nước', 'Sự thận gia'],
+      buttons: ['Quyền', 'Nhà nước', 'Sự tham gia'],
       type: 'content-with-buttons',
       bgGradient: 'from-red-800 to-red-900',
     },
@@ -226,49 +282,19 @@ Từ một quan điểm khác, quốc gia không chỉ là một cách làm vi�
       cards: [
         {
           title: 'Đồng nhất dân chủ với một mô hình duy nhất',
-          description: 'Chi tiêu'
+          description: 'Chi tiết'
         },
         {
           title: 'Bỏ qua bản chất giai cấp của dân chủ',
-          description: 'Chi tiêu'
+          description: 'Chi tiết'
         },
         {
           title: 'Không đặt dân chủ trong tiến trình lịch sử cụ thể',
-          description: 'Chi tiêu'
+          description: 'Chi tiết'
         }
       ],
       type: 'content-with-cards',
       bgGradient: 'from-red-100 via-red-50 to-red-100',
-    },
-    {
-      id: 15,
-      title: 'Đồng nhất dân chủ với một mô hình duy nhất',
-      content: `Nhân định cho rằng dân chủ chỉ có tồn tại trong khuôn khổ của chủ nghĩa tự bản chứa đó có nhiều điểm bất cập và những điều kiện lịch sử, xã hội của chủ được xây dựng. Cách tiếp cận này bỏ sót quan trọng một bản chất: dân chủ khởi những điều kiện lịch sử cụ thể của nó, với tính đa dạng và độc lập. Khi đó, dân chủ không còn được nhận nhận như một phạm trù lịch sử sắn có sẵn, mà là sản phẩm của quá trình phát triển của các xã hội cụ thể.
-
-Theo Chủ nghĩa xã hội khoa học, dân chủ không phải là sản phẩm riêng của chủ nghĩa tự bản, mà là kết quả của quá trình phát triển lịch sử lâu dài, gắn liền với trình độ phát triển kinh tế, cơ cấu giai cấp và quan hệ sản xuất của xã hội. Trong lịch sử, sự ton tại của những hình thức dân chủ khác nhau phản ánh bản chất giai cấp của quyền lực nhà nước, đồng thời cũng phát triển theo mức độ phát triển của xã hội.`,
-      type: 'content-with-box-full',
-      bgGradient: 'from-red-800 to-red-900',
-      showBackButton: true,
-    },
-    {
-      id: 16,
-      title: 'Bỏ qua bản chất giai cấp của dân chủ',
-      content: `Quan điểm phủ nhân dân chủ ở Việt Nam thường liên kết với khái niệm "nước phương tây" lại lịch giai cấp. Tuy nhiên, theo Chủ nghĩa xã hội khoa học, dân chủ luôn mang bản chất giai cấp, được sản xuất nhất định. Lịch sử cho thấy, mô hình thực dân chủ trên thực tế là đắm liên với hợp định hành động chính trị phía bộ phận được chính sách làm chủ của giai cấp nhất định. Những về thực chất văn là dân chủ của giai cấp tư sản, bởi quyền lực thực sự nằm trong tay các nhà tư bản, dù hình thức có vẻ công cộng và bình đẳng.
-
-Trong bối cảnh Việt Nam, dân chủ xã hội chủ nghĩa được xây dựng trên cơ sở dân chủ cho nhân dân được nhân dân lao động chủ yếu, được quy định trong lịch sử để thực hiện bình đẳng về chất lẫn về hình thức với quan đảm nhân dân lao động và cải thiện điều kiện sống được các quiết định chính trị và phát triển kinh tế.`,
-      type: 'content-with-box-full',
-      bgGradient: 'from-red-800 to-red-900',
-      showBackButton: true,
-    },
-    {
-      id: 17,
-      title: 'Không đặt dân chủ trong tiến trình lịch sử cụ thể',
-      content: `Một hạn chế cơ bản của nhân định phủ nhân dân chủ xã hội chủ nghĩa là xem dân chủ như một phạm trù trừu tượng, ngủi lập lực lác, thay vì đặt nó trong tiến trình lịch sự cụ thể. Theo Chủ nghĩa Mác – Lênin, dân chủ là một phạm trù lịch sử, luôn động và biến đổi cùng với sự phát triển của xã hội. Không tồn tại một mô hình dân chủ chung, bất biến cho mọi thời đại mọi quốc gia, mà là một quá trình lâu dài, tương ứng với điều kiện cụ thể của mỗi xã hội.
-
-Trong bối cảnh Việt Nam, dân chủ xã hội chủ nghĩa được xây dựng trong những điều kiện lịch sử đặc thù, với xuất phát điểm kinh tế lạc hậu, nền độc lập chủ quyền bị xâm chiếm nhiều thế kỷ, và sự phân chia giai cấp sâu sắc. Việc mở rộng và hoàn thiện dân chủ không thể diễn ra một quá trình lâu dài, tương ứng với sự phát triển kinh tế – xã hội của đất nước. Những số sánh giới hạn, tách rời bối cảnh lịch sử cụ thể đó, vị là phi lịch sử và không khoa học về sự phát triển của dân chủ .`,
-      type: 'content-with-box-full',
-      bgGradient: 'from-red-800 to-red-900',
-      showBackButton: true,
     },
     {
       id: 14,
@@ -281,6 +307,35 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
       type: 'content-with-buttons-right',
       bgGradient: 'from-red-100 via-red-50 to-red-100',
       hasMap: true,
+    },
+    {
+      id: 18,
+      title: 'PHỤ LỤC',
+      subtitle: 'Tài liệu tham khảo và biểu tượng lịch sử',
+      items: [
+        'Chủ nghĩa Mác – Lênin về dân chủ và nhà nước',
+        'Hiến pháp nước Cộng hòa xã hội chủ nghĩa Việt Nam',
+        'Văn kiện Đại hội Đảng Cộng sản Việt Nam',
+        'Lý luận Hồ Chí Minh về dân chủ xã hội chủ nghĩa',
+        'Các văn bản pháp luật về quyền công dân và dân chủ',
+        'Nghiên cứu về dân chủ trong thời đại hiện đại'
+      ],
+      type: 'appendix',
+      bgGradient: 'from-red-800 to-red-900',
+    },
+    {
+      id: 19,
+      title: 'KẾT LUẬN',
+      subtitle: 'Dân chủ xã hội chủ nghĩa - Con đường phát triển của Việt Nam',
+      content: `Dân chủ không phải là sản phẩm độc quyền của chủ nghĩa tư bản, mà là giá trị phổ quát của nhân loại, được phát triển và hoàn thiện qua các giai đoạn lịch sử khác nhau.
+
+Việt Nam đã lựa chọn con đường xây dựng dân chủ xã hội chủ nghĩa phù hợp với điều kiện lịch sử, văn hóa và trình độ phát triển của đất nước. Đây là một quá trình lâu dài, không ngừng được hoàn thiện và phát triển.
+
+Dân chủ xã hội chủ nghĩa ở Việt Nam được thể hiện qua việc nhân dân thực sự làm chủ, tham gia vào quản lý nhà nước và xã hội, được hưởng các quyền cơ bản và thụ hưởng thành quả phát triển một cách công bằng.
+
+Con đường phát triển dân chủ của Việt Nam là một phần không thể tách rời của quá trình xây dựng và phát triển đất nước theo định hướng xã hội chủ nghĩa.`,
+      type: 'conclusion',
+      bgGradient: 'from-red-700 via-red-600 to-amber-100',
     },
   ];
 
@@ -301,8 +356,65 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
   };
 
   const handleWheel = (e) => {
-    e.preventDefault();
     if (scrollLocked) return;
+    
+    // Tìm element có thể scroll được từ target và các parent elements
+    let element = e.target;
+    let scrollableElement = null;
+    
+    // Kiểm tra từ target lên đến root để tìm element có scroll
+    while (element && element !== document.body) {
+      const style = window.getComputedStyle(element);
+      const hasOverflowY = style.overflowY === 'auto' || style.overflowY === 'scroll';
+      const canScroll = element.scrollHeight > element.clientHeight;
+      
+      if (hasOverflowY && canScroll) {
+        scrollableElement = element;
+        break;
+      }
+      
+      element = element.parentElement;
+    }
+    
+    if (scrollableElement) {
+      // Kiểm tra xem element có thể scroll được không
+      const scrollTop = scrollableElement.scrollTop;
+      const scrollHeight = scrollableElement.scrollHeight;
+      const clientHeight = scrollableElement.clientHeight;
+      const threshold = 1; // Ngưỡng để xác định đã scroll đến đầu/cuối
+      
+      const canScrollUp = scrollTop > threshold;
+      const canScrollDown = scrollTop < (scrollHeight - clientHeight - threshold);
+      
+      // Nếu đang cuộn xuống và có thể scroll xuống, cho phép scroll
+      if (e.deltaY > 0 && canScrollDown) {
+        return; // Cho phép scroll bình thường
+      }
+      
+      // Nếu đang cuộn lên và có thể scroll lên, cho phép scroll
+      if (e.deltaY < 0 && canScrollUp) {
+        return; // Cho phép scroll bình thường
+      }
+      
+      // Nếu đã scroll đến đầu/cuối, mới chuyển trang
+      if (e.deltaY > 50 && !canScrollDown) {
+        e.preventDefault();
+        handleNext();
+        return;
+      }
+      
+      if (e.deltaY < -50 && !canScrollUp) {
+        e.preventDefault();
+        handlePrev();
+        return;
+      }
+      
+      // Nếu đang ở giữa scroll, cho phép scroll tiếp
+      return;
+    }
+    
+    // Nếu không có element scrollable, chuyển trang như bình thường
+    e.preventDefault();
     if (e.deltaY > 50) handleNext();
     else if (e.deltaY < -50) handlePrev();
   };
@@ -330,7 +442,11 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
   const currentPageData = pages[currentPage];
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black" onWheel={handleWheel}>
+    <div 
+      className="relative w-full h-screen overflow-hidden bg-black" 
+      onWheel={handleWheel}
+      style={{ touchAction: 'pan-y' }}
+    >
       <AnimatePresence initial={false} custom={currentPage} mode="wait">
         <motion.div
           key={currentPage}
@@ -340,32 +456,32 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
           animate="center"
           exit="exit"
           transition={pageTransition}
-          className={`absolute inset-0 w-full h-screen bg-gradient-to-r ${currentPageData.bgGradient} flex flex-col items-center justify-center p-8 overflow-hidden`}
+          className={`absolute inset-0 w-full h-screen bg-gradient-to-r ${currentPageData.bgGradient} flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden`}
         >
           <div className="w-full h-full flex items-center justify-center relative z-10">
             {currentPageData.type === 'cover' && (
-              <div className="w-full h-full flex items-center justify-between px-12">
+              <div className="w-full h-full flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 md:px-12 gap-4 md:gap-0">
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="flex-1 flex flex-col items-center justify-center"
                 >
-                  <div className="mb-8">
-                    <VietnamMap className="w-40 h-40 md:w-56 md:h-56" />
+                  <div className="mb-4 md:mb-8">
+                    <VietnamMap className="w-24 h-24 sm:w-32 sm:h-32 md:w-56 md:h-56" />
                   </div>
                   <motion.div
-                    className="text-center space-y-3"
+                    className="text-center space-y-2 md:space-y-3"
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 3, repeat: Infinity }}
                   >
-                    <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-2xl" style={{textShadow: '0 4px 8px rgba(180, 20, 20, 0.8)'}}>
+                    <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-2xl px-2" style={{textShadow: '0 4px 8px rgba(180, 20, 20, 0.8)'}}>
                       {currentPageData.title}
                     </h1>
-                    <p className="text-3xl md:text-4xl font-bold text-white drop-shadow-2xl" style={{textShadow: '0 3px 6px rgba(180, 20, 20, 0.8)'}}>
+                    <p className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-2xl px-2" style={{textShadow: '0 3px 6px rgba(180, 20, 20, 0.8)'}}>
                       {currentPageData.subtitle}
                     </p>
-                    <p className="text-3xl md:text-4xl font-bold text-white drop-shadow-2xl" style={{textShadow: '0 3px 6px rgba(180, 20, 20, 0.8)'}}>
+                    <p className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-2xl px-2" style={{textShadow: '0 3px 6px rgba(180, 20, 20, 0.8)'}}>
                       {currentPageData.subtitle2}
                     </p>
                   </motion.div>
@@ -382,18 +498,18 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
             )}
 
             {currentPageData.type === 'content-with-map' && (
-              <div className="w-full h-full flex items-center justify-between px-8 md:px-16">
+              <div className="w-full h-full flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 md:px-16 gap-4 md:gap-0">
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
                   className="flex-1 flex flex-col justify-center space-y-6"
                 >
-                  <div className="space-y-4">
-                    <h2 className="text-5xl md:text-6xl font-bold text-red-800">
+                  <div className="space-y-2 md:space-y-4 text-center md:text-left">
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-red-800">
                       {currentPageData.title}
                     </h2>
-                    <p className="text-xl md:text-2xl text-black font-medium max-w-md">
+                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-black font-medium max-w-md">
                       {currentPageData.subtitle}
                     </p>
                   </div>
@@ -409,22 +525,22 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="flex-1 flex items-end justify-end h-full pb-8"
+                  className="flex-1 flex items-center md:items-end justify-center md:justify-end h-full pb-4 md:pb-8"
                 >
-                  <VietnamMap className="w-64 h-64 md:w-80 md:h-80" />
+                  <VietnamMap className="w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80" />
                 </motion.div>
               </div>
             )}
 
             {currentPageData.type === 'content-with-map-right' && (
-              <div className="w-full h-full flex items-center justify-between px-8 md:px-16 gap-8">
+              <div className="w-full h-full flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 md:px-16 gap-4 md:gap-8">
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="flex-1 flex items-center justify-start h-full pb-8"
+                  className="flex-1 flex items-center justify-center md:justify-start h-full pb-4 md:pb-8"
                 >
-                  <VietnamMap className="w-64 h-64 md:w-80 md:h-80" />
+                  <VietnamMap className="w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80" />
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, x: 50 }}
@@ -434,7 +550,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                 >
                   <div className="space-y-6">
                     <motion.h2
-                      className="text-4xl md:text-5xl font-bold drop-shadow-lg"
+                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg text-center md:text-left"
                       animate={{ y: [0, -5, 0] }}
                       transition={{ duration: 2.5, repeat: Infinity }}
                     >
@@ -444,7 +560,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4, duration: 0.8 }}
-                      className="text-lg md:text-xl leading-relaxed whitespace-pre-line"
+                      className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed whitespace-pre-line text-center md:text-left"
                     >
                       {currentPageData.content}
                     </motion.div>
@@ -454,15 +570,15 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
             )}
 
             {currentPageData.type === 'content-with-3-buttons-diagram' && (
-              <div className="w-full h-full flex items-center justify-between px-8 md:px-16 gap-8">
+              <div className="w-full h-full flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 md:px-16 gap-4 md:gap-8">
                 {/* Vietnam Map on the left */}
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="flex-1 flex items-center justify-start h-full"
+                  className="flex-1 flex items-center justify-center md:justify-start h-full"
                 >
-                  <VietnamMap className="w-64 h-64 md:w-80 md:h-80" />
+                  <VietnamMap className="w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80" />
                 </motion.div>
 
                 {/* Content on the right */}
@@ -481,7 +597,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                       transition={{ delay: 0.3 }}
                     >
                       <motion.h2
-                        className="text-3xl md:text-4xl font-bold text-yellow-400 text-center"
+                        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-400 text-center"
                         animate={{ y: [0, -3, 0] }}
                         transition={{ duration: 2.5, repeat: Infinity }}
                       >
@@ -495,15 +611,15 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4, duration: 0.8 }}
-                    className="text-white text-base md:text-lg leading-relaxed text-center italic"
+                    className="text-white text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-center italic"
                   >
                     {currentPageData.content}
                   </motion.p>
 
                   {/* 3 Buttons in diagram layout */}
-                  <div className="flex flex-col items-center gap-4">
+                  <div className="flex flex-col items-center gap-3 md:gap-4">
                     {/* Top row - 2 buttons */}
-                    <div className="flex gap-6 justify-center">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center w-full">
                       {currentPageData.buttons && currentPageData.buttons.slice(0, 2).map((btn, idx) => (
                         <motion.button
                           key={idx}
@@ -513,7 +629,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => setActiveModal({ type: 'slide3', index: idx })}
-                          className="px-6 py-3 border-2 border-yellow-500 text-yellow-400 rounded-full font-semibold hover:bg-yellow-500 hover:text-red-900 transition-all cursor-pointer text-sm md:text-base"
+                          className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-yellow-500 text-yellow-400 rounded-full font-semibold hover:bg-yellow-500 hover:text-red-900 transition-all cursor-pointer text-xs sm:text-sm md:text-base w-full sm:w-auto"
                         >
                           • {btn}
                         </motion.button>
@@ -529,7 +645,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setActiveModal({ type: 'slide3', index: 2 })}
-                        className="px-6 py-3 border-2 border-yellow-500 text-yellow-400 rounded-full font-semibold hover:bg-yellow-500 hover:text-red-900 transition-all cursor-pointer text-sm md:text-base"
+                        className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-yellow-500 text-yellow-400 rounded-full font-semibold hover:bg-yellow-500 hover:text-red-900 transition-all cursor-pointer text-xs sm:text-sm md:text-base w-full sm:w-auto"
                       >
                         • {currentPageData.buttons[2]}
                       </motion.button>
@@ -561,7 +677,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                 className="max-w-3xl text-white px-8"
               >
                 <motion.h2
-                  className="text-5xl md:text-6xl font-bold mb-8 text-yellow-400 drop-shadow-lg"
+                  className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-8 text-yellow-400 drop-shadow-lg text-center px-2"
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 2.5, repeat: Infinity }}
                 >
@@ -571,7 +687,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4, duration: 0.8 }}
-                  className="bg-red-900 bg-opacity-70 border-2 border-yellow-500 rounded-2xl p-8 text-lg leading-relaxed whitespace-pre-line"
+                  className="bg-red-900 bg-opacity-70 border-2 border-yellow-500 rounded-2xl p-4 sm:p-6 md:p-8 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line"
                 >
                   {currentPageData.content}
                 </motion.div>
@@ -622,7 +738,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
               >
                 <div className="max-w-3xl">
                   <motion.h2
-                    className="text-4xl md:text-5xl font-bold mb-8 text-yellow-300 drop-shadow-lg text-center"
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-8 text-yellow-300 drop-shadow-lg text-center px-2"
                     animate={{ y: [0, -5, 0] }}
                     transition={{ duration: 2.5, repeat: Infinity }}
                   >
@@ -633,7 +749,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.2, duration: 0.8 }}
-                    className="bg-red-900 bg-opacity-60 border-2 border-red-600 rounded-2xl p-8 text-white text-base leading-relaxed whitespace-pre-line"
+                    className="bg-red-900 bg-opacity-60 border-2 border-red-600 rounded-2xl p-4 sm:p-6 md:p-8 text-white text-xs sm:text-sm md:text-base leading-relaxed whitespace-pre-line"
                   >
                     {currentPageData.content}
                   </motion.div>
@@ -741,11 +857,11 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="w-full h-full flex items-center justify-center px-8"
+                className="w-full h-full flex items-center justify-center px-4 sm:px-6 md:px-8"
               >
-                <div className="max-w-3xl">
+                <div className="max-w-3xl w-full">
                   <motion.h2
-                    className="text-5xl md:text-6xl font-bold mb-8 text-yellow-400 drop-shadow-lg"
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 text-yellow-400 drop-shadow-lg text-center px-2"
                     animate={{ y: [0, -5, 0] }}
                     transition={{ duration: 2.5, repeat: Infinity }}
                   >
@@ -756,12 +872,12 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.8 }}
-                    className="bg-red-900 bg-opacity-70 border-2 border-yellow-500 rounded-2xl p-8 text-white text-lg leading-relaxed mb-8 whitespace-pre-line"
+                    className="bg-red-900 bg-opacity-70 border-2 border-yellow-500 rounded-2xl p-4 sm:p-6 md:p-8 text-white text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed mb-4 sm:mb-6 md:mb-8 whitespace-pre-line"
                   >
                     {currentPageData.content}
                   </motion.div>
 
-                  <div className="flex gap-6 justify-center flex-wrap">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center items-stretch sm:items-center flex-wrap">
                     {currentPageData.buttons && currentPageData.buttons.map((btn, idx) => (
                       <motion.button
                         key={idx}
@@ -770,7 +886,13 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                         transition={{ delay: 0.5 + idx * 0.2, duration: 0.6 }}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-8 py-3 border-2 border-yellow-500 text-yellow-400 rounded-full font-semibold hover:bg-yellow-500 hover:text-red-900 transition-all"
+                        onClick={() => {
+                          // Kiểm tra nếu là trang id 12 thì mở modal slide12
+                          if (currentPageData.id === 12) {
+                            setActiveModal({ type: 'slide12', index: idx });
+                          }
+                        }}
+                        className="px-4 py-2 sm:px-6 sm:py-2.5 md:px-8 md:py-3 border-2 border-yellow-500 text-yellow-400 rounded-full font-semibold hover:bg-yellow-500 hover:text-red-900 transition-all text-xs sm:text-sm md:text-base w-full sm:w-auto cursor-pointer"
                       >
                         {btn}
                       </motion.button>
@@ -785,10 +907,10 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="w-full h-full flex flex-col items-center justify-center px-8 md:px-16 space-y-6"
+                className="w-full h-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 space-y-4 sm:space-y-5 md:space-y-6"
               >
                 <motion.h2
-                  className="text-4xl md:text-5xl font-bold text-yellow-300 drop-shadow-lg text-center"
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-300 drop-shadow-lg text-center px-2"
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 2.5, repeat: Infinity }}
                 >
@@ -799,12 +921,12 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
-                  className="text-lg text-white text-center max-w-3xl"
+                  className="text-xs sm:text-sm md:text-base lg:text-lg text-white text-center max-w-3xl px-2"
                 >
                   {currentPageData.content}
                 </motion.p>
 
-                <div className="flex flex-col gap-4 w-full max-w-2xl">
+                <div className="flex flex-col gap-3 sm:gap-4 w-full max-w-2xl px-2">
                   {currentPageData.buttons && currentPageData.buttons.map((btn, idx) => (
                     <motion.button
                       key={idx}
@@ -814,7 +936,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                       whileHover={{ scale: 1.02, x: 10 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setActiveModal({ type: 'slide11', index: idx })}
-                      className="px-6 py-3 border-2 border-red-500 text-white rounded-full font-semibold hover:bg-red-600 hover:border-red-400 transition-all text-center cursor-pointer"
+                      className="px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 border-2 border-red-500 text-white rounded-full font-semibold hover:bg-red-600 hover:border-red-400 transition-all text-center cursor-pointer text-xs sm:text-sm md:text-base"
                     >
                       {btn}
                     </motion.button>
@@ -835,15 +957,15 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
             )}
 
             {currentPageData.type === 'content-with-buttons-right' && (
-              <div className="w-full h-full flex items-center justify-between px-8 md:px-16 gap-8">
+              <div className="w-full h-full flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 md:px-8 lg:px-16 gap-4 md:gap-8 overflow-y-auto">
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="flex-1 flex flex-col justify-center space-y-4"
+                  className="flex-1 flex flex-col justify-center space-y-3 md:space-y-4 w-full"
                 >
                   <motion.h2
-                    className="text-4xl md:text-5xl font-bold text-red-800"
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-red-800 break-words"
                     animate={{ y: [0, -5, 0] }}
                     transition={{ duration: 2.5, repeat: Infinity }}
                   >
@@ -854,7 +976,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2, duration: 0.8 }}
-                    className="text-lg text-red-700 font-medium italic"
+                    className="text-sm sm:text-base md:text-lg text-red-700 font-medium italic break-words"
                   >
                     {currentPageData.subtitle}
                   </motion.p>
@@ -863,12 +985,12 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4, duration: 0.8 }}
-                    className="text-base text-black leading-relaxed whitespace-pre-line"
+                    className="text-xs sm:text-sm md:text-base text-black leading-relaxed whitespace-pre-line break-words"
                   >
                     {currentPageData.content}
                   </motion.div>
 
-                  <div className="flex flex-col gap-4 mt-6">
+                  <div className="flex flex-col gap-3 md:gap-4 mt-4 md:mt-6">
                     {currentPageData.buttons && currentPageData.buttons.map((btn, idx) => (
                       <motion.button
                         key={idx}
@@ -878,7 +1000,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                         whileHover={{ scale: 1.05, x: 10 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setActiveModal({ type: 'lastSlide', index: idx })}
-                        className="px-6 py-3 border-2 border-red-700 text-red-700 rounded-full font-semibold hover:bg-red-700 hover:text-white transition-all text-left cursor-pointer"
+                        className="px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 border-2 border-red-700 text-red-700 rounded-full font-semibold hover:bg-red-700 hover:text-white transition-all text-left cursor-pointer text-xs sm:text-sm md:text-base w-full sm:w-auto"
                       >
                         • {btn}
                       </motion.button>
@@ -890,9 +1012,9 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="flex-1 flex items-center justify-end h-full"
+                  className="flex-1 flex items-center justify-center md:justify-end h-full w-full md:w-auto"
                 >
-                  {currentPageData.hasMap && <VietnamMap className="w-64 h-64 md:w-80 md:h-80" />}
+                  {currentPageData.hasMap && <VietnamMap className="w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80" />}
                 </motion.div>
               </div>
             )}
@@ -906,7 +1028,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
               >
                 <div className="max-w-5xl">
                   <motion.h2
-                    className="text-5xl md:text-6xl font-bold mb-4 text-red-800 drop-shadow-lg text-center"
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 md:mb-4 text-red-800 drop-shadow-lg text-center px-2"
                     animate={{ y: [0, -5, 0] }}
                     transition={{ duration: 2.5, repeat: Infinity }}
                   >
@@ -917,29 +1039,214 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.8 }}
-                    className="text-black text-lg mb-8 text-center font-medium"
+                    className="text-black text-sm sm:text-base md:text-lg mb-4 md:mb-8 text-center font-medium px-2"
                   >
                     {currentPageData.subtitle}
                   </motion.p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
                     {currentPageData.cards && currentPageData.cards.map((card, idx) => (
                       <motion.div
                         key={idx}
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.5 + idx * 0.2, duration: 0.6 }}
-                        className="bg-red-800 rounded-2xl p-6 border-2 border-red-600 text-white hover:shadow-2xl transition-all"
+                        whileHover={{ scale: 1.05 }}
+                        onClick={() => setActiveModal({ type: 'slide13', index: idx })}
+                        className="bg-red-800 rounded-2xl p-4 sm:p-5 md:p-6 border-2 border-red-600 text-white hover:shadow-2xl transition-all cursor-pointer flex flex-col"
                       >
-                        <h3 className="text-xl font-bold mb-4 text-yellow-300">
+                        <h3 className="text-base sm:text-lg md:text-xl font-bold mb-3 md:mb-4 text-yellow-300">
                           {card.title}
                         </h3>
-                        <p className="text-sm leading-relaxed">
-                          {card.description}
-                        </p>
+                        <div className="mt-auto pt-3 md:pt-4 flex items-center gap-2 group">
+                          <span className="text-xs sm:text-sm text-white font-medium">
+                            {card.description}
+                          </span>
+                          <ArrowRight 
+                            size={16} 
+                            className="text-white group-hover:translate-x-1 transition-transform flex-shrink-0" 
+                          />
+                        </div>
                       </motion.div>
                     ))}
                   </div>
+                </div>
+              </motion.div>
+            )}
+
+            {currentPageData.type === 'appendix' && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="w-full h-full flex items-center justify-center px-4 sm:px-6 md:px-8 overflow-y-auto"
+              >
+                <div className="max-w-5xl w-full py-4">
+                  <motion.h2
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 text-yellow-400 drop-shadow-lg text-center break-words px-2"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 2.5, repeat: Infinity }}
+                  >
+                    {currentPageData.title}
+                  </motion.h2>
+                  
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                    className="text-sm sm:text-base md:text-lg lg:text-xl text-white text-center mb-6 sm:mb-8 md:mb-12 italic px-2 break-words"
+                  >
+                    {currentPageData.subtitle}
+                  </motion.p>
+
+                  {/* Icons row */}
+                  <div className="flex justify-center gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8 md:mb-12 flex-wrap">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.4, duration: 0.5 }}
+                      className="flex flex-col items-center"
+                    >
+                      <VietnamFlag className="w-20 h-12 sm:w-24 sm:h-16 md:w-32 md:h-20 mb-1 md:mb-2" />
+                      <span className="text-white text-xs sm:text-sm">Cờ Tổ quốc</span>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5, duration: 0.5 }}
+                      className="flex flex-col items-center"
+                    >
+                      <DocumentIcon className="w-16 h-20 sm:w-20 sm:h-24 md:w-24 md:h-28 mb-1 md:mb-2" />
+                      <span className="text-white text-xs sm:text-sm">Văn kiện</span>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.6, duration: 0.5 }}
+                      className="flex flex-col items-center"
+                    >
+                      <HammerSickle className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mb-1 md:mb-2" />
+                      <span className="text-white text-xs sm:text-sm">Biểu tượng</span>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.7, duration: 0.5 }}
+                      className="flex flex-col items-center"
+                    >
+                      <BookIcon className="w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-24 mb-1 md:mb-2" />
+                      <span className="text-white text-xs sm:text-sm">Tài liệu</span>
+                    </motion.div>
+                  </div>
+
+                  {/* Reference list */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8, duration: 0.8 }}
+                    className="bg-red-900 bg-opacity-60 border-2 border-yellow-500 rounded-2xl p-4 sm:p-6 md:p-8"
+                  >
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-300 mb-4 md:mb-6 text-center">
+                      Tài liệu tham khảo
+                    </h3>
+                    <ul className="space-y-2 md:space-y-3">
+                      {currentPageData.items && currentPageData.items.map((item, idx) => (
+                        <motion.li
+                          key={idx}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.9 + idx * 0.1, duration: 0.5 }}
+                          className="flex items-start gap-2 md:gap-3 text-white"
+                        >
+                          <span className="text-yellow-400 font-bold mt-1 flex-shrink-0">•</span>
+                          <span className="text-xs sm:text-sm md:text-base leading-relaxed">{item}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+
+            {currentPageData.type === 'conclusion' && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="w-full h-full flex items-center justify-center px-8"
+              >
+                <div className="max-w-4xl w-full">
+                  <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-4 sm:mb-6 md:mb-8 flex-wrap">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                      transition={{ delay: 0.2, duration: 0.6 }}
+                    >
+                      <VietnamMap className="w-20 h-30 sm:w-24 sm:h-36 md:w-32 md:h-48" />
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3, duration: 0.6 }}
+                    >
+                      <VietnamFlag className="w-24 h-16 sm:w-32 sm:h-22 md:w-40 md:h-28" />
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8, rotate: 10 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                      transition={{ delay: 0.4, duration: 0.6 }}
+                    >
+                      <Mandala className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32" />
+                    </motion.div>
+                  </div>
+
+                  <motion.h2
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 text-white drop-shadow-2xl text-center px-2"
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 2.5, repeat: Infinity }}
+                    style={{textShadow: '0 4px 8px rgba(0, 0, 0, 0.8)'}}
+                  >
+                    {currentPageData.title}
+                  </motion.h2>
+                  
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                    className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-semibold text-white text-center mb-4 sm:mb-6 md:mb-8 italic px-2"
+                    style={{textShadow: '0 2px 4px rgba(0, 0, 0, 0.6)'}}
+                  >
+                    {currentPageData.subtitle}
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.6, duration: 0.8 }}
+                    className="bg-red-900 bg-opacity-70 border-2 sm:border-3 md:border-4 border-yellow-400 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-2xl"
+                  >
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.8, duration: 0.8 }}
+                      className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl leading-relaxed whitespace-pre-line text-justify"
+                    >
+                      {currentPageData.content}
+                    </motion.div>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1, duration: 0.8 }}
+                    className="mt-4 sm:mt-6 md:mt-8 text-center"
+                  >
+                    <div className="flex justify-center gap-2 sm:gap-3 md:gap-4">
+                      <BookIcon className="w-10 h-8 sm:w-12 sm:h-9 md:w-16 md:h-12 text-yellow-300" />
+                      <HammerSickle className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 text-yellow-300" />
+                      <DocumentIcon className="w-8 h-10 sm:w-10 sm:h-12 md:w-12 md:h-14 text-yellow-300" />
+                    </div>
+                  </motion.div>
                 </div>
               </motion.div>
             )}
@@ -982,9 +1289,9 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.8 }}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white"
+            className="absolute bottom-6 sm:bottom-8 md:bottom-10 left-1/2 transform -translate-x-1/2 text-white"
           >
-            <p className="text-sm md:text-base font-semibold">
+            <p className="text-xs sm:text-sm md:text-base font-semibold">
               {currentPage + 1} / {pages.length}
             </p>
           </motion.div>
@@ -1004,13 +1311,13 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
           whileTap={{ scale: 0.95 }}
           onClick={handlePrev}
           disabled={currentPage === 0}
-          className={`pointer-events-auto ml-4 p-3 rounded-full transition-all ${
+          className={`pointer-events-auto ml-2 sm:ml-3 md:ml-4 p-2 sm:p-2.5 md:p-3 rounded-full transition-all ${
             currentPage === 0
               ? 'bg-gray-600 opacity-50 cursor-not-allowed'
               : 'bg-white hover:bg-gray-200 cursor-pointer'
           }`}
         >
-          <ChevronUp size={24} className="text-black" />
+          <ChevronUp size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6 text-black" />
         </motion.button>
 
         <motion.button
@@ -1018,13 +1325,13 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
           whileTap={{ scale: 0.95 }}
           onClick={handleNext}
           disabled={currentPage === pages.length - 1}
-          className={`pointer-events-auto mr-4 p-3 rounded-full transition-all ${
+          className={`pointer-events-auto mr-2 sm:mr-3 md:mr-4 p-2 sm:p-2.5 md:p-3 rounded-full transition-all ${
             currentPage === pages.length - 1
               ? 'bg-gray-600 opacity-50 cursor-not-allowed'
               : 'bg-white hover:bg-gray-200 cursor-pointer'
           }`}
         >
-          <ChevronDown size={24} className="text-black" />
+          <ChevronDown size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6 text-black" />
         </motion.button>
       </div>
 
@@ -1032,9 +1339,9 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-white"
+          className="absolute bottom-12 sm:bottom-16 md:bottom-20 left-1/2 transform -translate-x-1/2 text-white"
         >
-          <ChevronDown size={32} />
+          <ChevronDown size={20} className="sm:w-6 sm:h-6 md:w-8 md:h-8" />
         </motion.div>
       )}
 
@@ -1046,7 +1353,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-3 md:p-4"
             onClick={() => setActiveModal(null)}
           >
             {/* Backdrop */}
@@ -1064,7 +1371,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
               exit={{ opacity: 0, scale: 0.9, y: 50 }}
               transition={{ duration: 0.4, type: 'spring', damping: 25 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden"
+              className="relative w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden mx-2"
             >
               {/* Background with Vietnam map silhouette */}
               <div className="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-3xl overflow-hidden">
@@ -1088,15 +1395,15 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                 </div>
 
                 {/* Content Container */}
-                <div className="relative z-10 p-8 md:p-12">
+                <div className="relative z-10 p-4 sm:p-6 md:p-8 lg:p-12 overflow-y-auto max-h-[95vh] sm:max-h-[90vh]">
                   {/* Close button */}
                   <motion.button
                     whileHover={{ scale: 1.1, rotate: 90 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setActiveModal(null)}
-                    className="absolute top-4 right-4 p-2 rounded-full bg-red-700/50 hover:bg-red-600 transition-colors"
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 md:top-4 md:right-4 p-1.5 sm:p-2 rounded-full bg-red-700/50 hover:bg-red-600 transition-colors z-20"
                   >
-                    <X size={24} className="text-white" />
+                    <X size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                   </motion.button>
 
                   {/* Title */}
@@ -1104,7 +1411,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="text-2xl md:text-3xl font-bold text-yellow-400 mb-6 pr-12 leading-tight"
+                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-yellow-400 mb-3 sm:mb-4 md:mb-6 pr-8 sm:pr-10 md:pr-12 leading-tight"
                     style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
                   >
                     {getModalContent()?.title}
@@ -1115,9 +1422,9 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="bg-red-950/60 border-2 border-yellow-600/50 rounded-2xl p-6 md:p-8 mb-6"
+                    className="bg-red-950/60 border-2 border-yellow-600/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 mb-4 sm:mb-5 md:mb-6"
                   >
-                    <p className="text-white text-sm md:text-base leading-relaxed text-justify whitespace-pre-line">
+                    <p className="text-white text-xs sm:text-sm md:text-base leading-relaxed text-justify whitespace-pre-line">
                       {getModalContent()?.content}
                     </p>
                   </motion.div>
@@ -1131,7 +1438,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
                   >
                     <button
                       onClick={() => setActiveModal(null)}
-                      className="px-8 py-3 bg-red-950/80 border-2 border-yellow-600/70 text-yellow-400 rounded-full font-semibold hover:bg-red-800 hover:border-yellow-500 transition-all"
+                      className="px-4 py-2 sm:px-6 sm:py-2.5 md:px-8 md:py-3 bg-red-950/80 border-2 border-yellow-600/70 text-yellow-400 rounded-full font-semibold hover:bg-red-800 hover:border-yellow-500 transition-all text-xs sm:text-sm md:text-base"
                     >
                       {getModalContent()?.buttonText}
                     </button>
