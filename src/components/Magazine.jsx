@@ -223,7 +223,7 @@ Do đó, dù hình thức dân chủ từ sản có mở rộng những quyền 
     },
     {
       id: 10,
-      title: 'TIẾN BỘ NHỮNG CHƯA TRIỆT ĐỀ',
+      title: 'TIẾN BỘ NHƯNG CHƯA TRIỆT ĐỀ',
       content: `Dân chủ tư sản đánh dấu bước tiến quan trọng trong trong lịch sử nhân loại, nhưng về bản chất vẫn là nền dân chủ mang tính giai cấp.
 
 Quyền lực chính trị tuy được mở rộng về hình thức, song quyền lực kinh tế vẫn tập trung trong tay thiểu số các nhà tư bản.
@@ -308,21 +308,7 @@ Trong cách tiếp cận này, cần chủ động tạo điều kiện chính t
       bgGradient: 'from-red-100 via-red-50 to-red-100',
       hasMap: true,
     },
-    {
-      id: 18,
-      title: 'PHỤ LỤC',
-      subtitle: 'Tài liệu tham khảo và biểu tượng lịch sử',
-      items: [
-        'Chủ nghĩa Mác – Lênin về dân chủ và nhà nước',
-        'Hiến pháp nước Cộng hòa xã hội chủ nghĩa Việt Nam',
-        'Văn kiện Đại hội Đảng Cộng sản Việt Nam',
-        'Lý luận Hồ Chí Minh về dân chủ xã hội chủ nghĩa',
-        'Các văn bản pháp luật về quyền công dân và dân chủ',
-        'Nghiên cứu về dân chủ trong thời đại hiện đại'
-      ],
-      type: 'appendix',
-      bgGradient: 'from-red-800 to-red-900',
-    },
+    
     {
       id: 19,
       title: 'KẾT LUẬN',
